@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - development
+      - stage
+      - master
 
   pull_request:
     branches:
@@ -19,11 +21,38 @@ env:
   WORKFLOW_REPO_VARIABLE: ${{ vars.REPO_VARIABLE_NAME }}
 
 jobs:
-  reporter:
+  dev-reporter:
+    name: Report the variables and secrets values
+    if: ${{ github.head_ref == 'development' }}
+    runs-on: ubuntu-latest
+    environment: development
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Echo report variable namea
+        run: echo ${{ env.WORKFLOW_REPO_VARIABLE }}
+
+  stg-reporter:
     name: Report the variables and secrets values
     runs-on: ubuntu-latest
+    if: ${{ github.head_ref == 'stage' }}
+    environment: stage
     steps:
       - uses: actions/checkout@v4
 
       - name: Echo report variable name
         run: echo ${{ env.WORKFLOW_REPO_VARIABLE }}
+
+
+  prd-reporter:
+    name: Report the variables and secrets values
+    runs-on: ubuntu-latest
+    if: ${{ github.head_ref == 'master' }}
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Echo report variable name
+        run: echo ${{ env.WORKFLOW_REPO_VARIABLE }}
+      
