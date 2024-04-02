@@ -1,0 +1,29 @@
+name: My Test Repo
+
+on:
+  push:
+    branches:
+      - development
+
+  pull_request:
+    branches:
+      - development
+
+  workflow_dispatch:
+
+# concurrency:
+#   group: build-and-deploy-${{ github.head_ref }}
+#   cancel-in-progress: true
+
+env:
+  WORKFLOW_REPO_VARIABLE: ${{ vars.REPO_VARIABLE_NAME }}
+
+jobs:
+  reporter:
+    name: Report the variables and secrets values
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Echo report variable name
+        run: echo ${{ env.WORKFLOW_REPO_VARIABLE }}
