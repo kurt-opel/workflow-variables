@@ -33,4 +33,7 @@ jobs:
       - name: Echo report variable names
         run: |
           echo ${{ env.WORKFLOW_REPO_VARIABLE }}
+          echo ${{ github.head_ref }}
+          echo ${{ github.ref_name }}
+          echo ${{ github.ref }}
           echo ${{ env.WORKFLOW_ENVIRONMENT }}
