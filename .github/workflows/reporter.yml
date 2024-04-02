@@ -19,13 +19,13 @@ on:
 
 env:
   WORKFLOW_REPO_VARIABLE: ${{ vars.REPO_VARIABLE_NAME }}
-  WORKFLOW_ENVIRONMENT: ${{ github.ref_name == 'master' && 'prod' || github.ref_name }}
+  WORKFLOW_ENVIRONMENT: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name }}
 
 jobs:
   reporter:
     name: Report the variables and secrets values
     runs-on: ubuntu-latest
-    # environment: ${{ env.WORKFLOW_ENVIRONMENT }}
+    environment: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name  }}
 
     steps:
       - uses: actions/checkout@v4
@@ -36,3 +36,4 @@ jobs:
           echo ${{ github.ref_name }}
           echo ${{ github.ref }}
           echo ${{ env.WORKFLOW_ENVIRONMENT }}
+          echo ${{ vars.MY_ENVIRONMENT_VARIABLE }}
