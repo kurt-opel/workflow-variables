@@ -3,13 +3,13 @@ name: My Test Repo Reporter
 on:
   push:
     branches:
-      - development
+      - develop
       - stage
       - master
 
-  pull_request:
-    branches:
-      - development
+  # pull_request:
+  #   branches:
+  #     - development
 
   workflow_dispatch:
 
