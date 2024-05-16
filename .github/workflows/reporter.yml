@@ -27,7 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name  }}
     permissions:
-      contents: read
       id-token: write
 
     steps:
