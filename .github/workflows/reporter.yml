@@ -32,27 +32,41 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: azure/login@v2
+      - name: Azure Login
+        uses: azure/login@v2
         with:
-          auth-type: IDENTITY
-          client-id: 8a235eaf-7bd0-43f8-8f55-f8c81457d5e4
-          tenant-id: 833a9480-bdcd-4d3d-9f4e-d0a7d9814209
-          subscription-id: 92c40ca0-a6b2-4b4d-a328-6d63fc4533ee
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
 
-      - uses: azure/get-keyvault-secrets@v1
-        id: get-kevault-secrets
+      - name: Azure CLI script
+        uses: azure/cli@v2
         with:
-          keyvault: ${{ vars.AZURE_KEY_VAULT_NAME }}
-          secrets: ${{ vars.AZURE_KEY_VAULT_SECRET_NAME__FUNC_APP_PUBLISH_PROFILE }}
+          azcliversion: latest
+          inlineScript: |
+            az account show
 
-      - name: What are the secrets?
-        run: echo ${{ steps.get-kevault-secrets.outputs.* }}
+      - name: Azure PowerShell script
+        uses: azure/powershell@v2
+        with:
+          azPSVersion: latest
+          inlineScript: |
+            Get-AzContext
 
-      - name: Echo report variable names
-        run: |
-          echo ${{ env.WORKFLOW_REPO_VARIABLE }}
-          echo ${{ github.ref_name }}
-          echo ${{ github.ref }}
-          echo ${{ env.WORKFLOW_ENVIRONMENT }}
-          echo ${{ env.MY_ENVIRONMENT_VARIABLE }}
+      # - uses: azure/get-keyvault-secrets@v1
+      #   id: get-kevault-secrets
+      #   with:
+      #     keyvault: ${{ vars.AZURE_KEY_VAULT_NAME }}
+      #     secrets: ${{ vars.AZURE_KEY_VAULT_SECRET_NAME__FUNC_APP_PUBLISH_PROFILE }}
+
+      # - name: What are the secrets?
+      #   run: echo ${{ steps.get-kevault-secrets.outputs.* }}
+
+      # - name: Echo report variable names
+      #   run: |
+      #     echo ${{ env.WORKFLOW_REPO_VARIABLE }}
+      #     echo ${{ github.ref_name }}
+      #     echo ${{ github.ref }}
+      #     echo ${{ env.WORKFLOW_ENVIRONMENT }}
+      #     echo ${{ env.MY_ENVIRONMENT_VARIABLE }}
