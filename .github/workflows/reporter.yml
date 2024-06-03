@@ -27,3 +27,6 @@ jobs:
 
       - name: Echo report variable name
         run: echo ${{ env.WORKFLOW_REPO_VARIABLE }}
+
+      - name: Echo event name
+        run: echo ${{ github.event_name }}
