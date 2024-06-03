@@ -7,15 +7,17 @@ on:
       - stage
       - master
 
-  # pull_request:
-  #   branches:
-  #     - development
+  pull_request:
+    branches:
+      - develop
+      - stage
+      - master
 
   workflow_dispatch:
 
-# concurrency:
-#   group: build-and-deploy-${{ github.head_ref }}
-#   cancel-in-progress: true
+concurrency:
+  group: build-and-deploy-${{ github.head_ref }}
+  cancel-in-progress: true
 
 env:
   WORKFLOW_REPO_VARIABLE: ${{ vars.REPO_VARIABLE_NAME }}
@@ -32,6 +34,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Echo event name
+        run: echo ${{ github.event_name }}
+        
       - name: Azure Login
         uses: azure/login@v2
         with:
