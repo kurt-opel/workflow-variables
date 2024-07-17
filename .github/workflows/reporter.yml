@@ -40,7 +40,7 @@ jobs:
       - name: Show value from json
         if: success() || failure()
         run: |
-          echo ${{ steps.json-properties.outputs }}
+          echo ${{ steps.json-properties.outputs.solution }}
 
       - name: Set json value to output
         if: success() || failure()
