@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - development
+      - master
 
   pull_request:
     branches:
@@ -19,14 +20,49 @@ env:
   WORKFLOW_REPO_VARIABLE: ${{ vars.REPO_VARIABLE_NAME }}
 
 jobs:
+  setter:
+    runs-on: ubuntu-latest
+    name: Set some variables for later use
+    steps:
+      - name: Set an ENV
+        run: echo "FOO=bar" >> $GITHUB_ENV
+
+      - name: get value from json
+        if: success() || failure()
+        id: json-properties
+        uses: zoexx/github-action-json-file-properties@release
+        with:
+          file_path: my-data.json
+
+      - name: Show value from json
+        if: success() || failure()
+        run: |
+          echo ${{ steps.json-properties.outputs.solution }}
+          echo ${{ steps.json-properties.outputs.solution.version }}
+
+      - name: Set json value to output
+        if: success() || failure()
+        run: echo "SOLUTION_VERSION=${{ steps.json-properties.outputs.solution.version }}" >> $GITHUB_OUTPUT
+
+      - name: Show the set vars
+        env:
+          SOLUTION_VERSION: ${{ needs.setter.output.SOLUTION_VERSION }}
+        run: |
+          echo $FOO
+          echo ${{ needs.setter.output.SOLUTION_VERSION }}
+          echo $SOLUTION_VERSION
+
   reporter:
     name: Report the variables and secrets values
     runs-on: ubuntu-latest
+    needs: setter
+    env:
+      SOLUTION_VERSION: ${{ needs.setter.outputs.SOLUTION_VERSION }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Echo report variable name
-        run: echo ${{ env.WORKFLOW_REPO_VARIABLE }}
-
-      - name: Echo event name
-        run: echo ${{ github.event_name }}
+        run: |
+          echo ${{ env.WORKFLOW_REPO_VARIABLE }}
+          echo ${{ needs.setter.outputs.SOLUTION_VERSION }}
+          echo $SOLUTION_VERSION
