@@ -54,7 +54,7 @@ jobs:
         env:
           SOLUTION_VERSION: ${{ needs.setter.output.SOLUTION_VERSION }}
         run: |
-          echo $FOO
+          echo ${{ env.FOO }}
           echo ${{ needs.setter.output.SOLUTION_VERSION }}
           echo ${{ env.SOLUTION_VERSION }}
 
@@ -71,4 +71,4 @@ jobs:
         run: |
           echo ${{ env.WORKFLOW_REPO_VARIABLE }}
           echo ${{ needs.setter.outputs.SOLUTION_VERSION }}
-          echo $SOLUTION_VERSION
+          echo ${{ env.SOLUTION_VERSION }}
