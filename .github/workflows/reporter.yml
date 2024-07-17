@@ -44,7 +44,11 @@ jobs:
 
       - name: Set json value to output
         if: success() || failure()
-        run: echo "SOLUTION_VERSION=${{ steps.json-properties.outputs.value }}" >> $GITHUB_OUTPUT
+        env:
+          SOLUTION_VERSION_STEP_OUTPUT: ${{ steps.json-properties.outputs.value }}
+        run: |
+          echo "SOLUTION_VERSION=$SOLUTION_VERSION_STEP_OUTPUT" >> $GITHUB_OUTPUT
+          echo $SOLUTION_VERSION_STEP_OUTPUT
 
       - name: Show the set vars
         env:
