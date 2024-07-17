@@ -24,6 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Set some variables for later use
     steps:
+      - uses: actions/checkout@v4
+
       - name: Set an ENV
         run: echo "FOO=bar" >> $GITHUB_ENV
 
