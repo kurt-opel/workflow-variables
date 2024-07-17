@@ -47,8 +47,8 @@ jobs:
         env:
           SOLUTION_VERSION_STEP_OUTPUT: ${{ steps.json-properties.outputs.value }}
         run: |
-          echo "SOLUTION_VERSION=$SOLUTION_VERSION_STEP_OUTPUT" >> $GITHUB_OUTPUT
-          echo $SOLUTION_VERSION_STEP_OUTPUT
+          echo "SOLUTION_VERSION=${{ env.SOLUTION_VERSION_STEP_OUTPUT }}" >> $GITHUB_OUTPUT
+          echo ${{ env.SOLUTION_VERSION_STEP_OUTPUT }}
 
       - name: Show the set vars
         env:
@@ -56,7 +56,7 @@ jobs:
         run: |
           echo $FOO
           echo ${{ needs.setter.output.SOLUTION_VERSION }}
-          echo $SOLUTION_VERSION
+          echo ${{ env.SOLUTION_VERSION }}
 
   reporter:
     name: Report the variables and secrets values
