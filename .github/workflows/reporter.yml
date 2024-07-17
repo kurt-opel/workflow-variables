@@ -21,6 +21,8 @@ env:
 
 jobs:
   setter:
+    outputs:
+      solution-version: ${{ steps.set-solution-version.outputs.SOLUTION_VERSION }}
     runs-on: ubuntu-latest
     name: Set some variables for later use
     steps:
@@ -43,6 +45,7 @@ jobs:
           echo ${{ steps.json-properties.outputs.value }}
 
       - name: Set json value to output
+        id: set-solution-version
         if: success() || failure()
         env:
           SOLUTION_VERSION_STEP_OUTPUT: ${{ steps.json-properties.outputs.value }}
@@ -63,12 +66,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: setter
     env:
-      SOLUTION_VERSION: ${{ needs.setter.outputs.SOLUTION_VERSION }}
+      SOLUTION_VERSION: ${{ needs.setter.outputs.solution-version }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Echo report variable name
         run: |
           echo ${{ env.WORKFLOW_REPO_VARIABLE }}
+          echo ${{ needs.setter.outputs.solution-version }}
           echo ${{ needs.setter.outputs.SOLUTION_VERSION }}
           echo ${{ env.SOLUTION_VERSION }}
