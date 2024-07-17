@@ -35,16 +35,16 @@ jobs:
         uses: zoexx/github-action-json-file-properties@release
         with:
           file_path: my-data.json
-          # prop_path: 'solution.version'
+          prop_path: 'solution.version'
 
       - name: Show value from json
         if: success() || failure()
         run: |
-          echo ${{ steps.json-properties.outputs.solution }}
+          echo ${{ steps.json-properties.outputs.value }}
 
       - name: Set json value to output
         if: success() || failure()
-        run: echo "SOLUTION_VERSION=${{ steps.json-properties.outputs.solution_version }}" >> $GITHUB_OUTPUT
+        run: echo "SOLUTION_VERSION=${{ steps.json-properties.outputs.value }}" >> $GITHUB_OUTPUT
 
       - name: Show the set vars
         env:
