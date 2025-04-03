@@ -46,7 +46,7 @@ jobs:
       #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
       #     enable-AzPSSession: true
       - name: Azure Login
-        run: az login --identity --client-id ${{ secrets.AZURE_CLIENT_ID }}
+        run: az login --identity --client-id 2e12992f-44fb-43e5-bcc8-ae2c9ec24574
 
       - name: Azure CLI script
         uses: azure/cli@v2
