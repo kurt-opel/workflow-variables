@@ -63,12 +63,15 @@ jobs:
             Get-AzContext
 
       - name: Get secret from keyvault
+        id: get-secret-from-keyvault
         run: |
           gh_secret=$(az keyvault secret show --name GitHub --vault-name kv-github-workflow-test --query value)
           echo "::add-mask::$gh_secret"
           echo "SECRET_VALUE=$gh_secret" >> $GITHUB_ENV
 
       - name: Output Secret Value
+        env:
+          GhSecret: ${{ steps.get-secret-from-keyvault.SECRET_VALUE }}
         run: echo "SecretValue is $SECRET_VALUE"
 
       # - uses: azure/get-keyvault-secrets@v1
