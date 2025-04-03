@@ -40,15 +40,16 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
+          auth-type: IDENTITY
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           enable-AzPSSession: true
 
       - name: Azure CLI script
         uses: azure/cli@v2
         with:
-          azcliversion: latest
+          # azcliversion: latest
           inlineScript: |
             az account show
 
@@ -58,6 +59,15 @@ jobs:
           azPSVersion: latest
           inlineScript: |
             Get-AzContext
+
+      - name: Get secret from keyvault
+        run: |
+          gh_secret=$(az keyvault secret show --name GitHub --vault-name kv-github-workflow-test --query value)
+          echo "Secret value: $gh_secret"
+          echo "SECRET_VALUE=$gh_secret" >> $GITHUB_ENV
+
+      - name: Output Secret Value
+        run: echo "SecretValue is $SECRET_VALUE"
 
       # - uses: azure/get-keyvault-secrets@v1
       #   id: get-kevault-secrets
