@@ -74,7 +74,8 @@ jobs:
 
       - name: Output Secret Value
         env:
-          GhSecret: ${{ steps.get-secret-from-keyvault.SECRET_VALUE }}
+          ENV_GH_SECRET: ${{ env.SECRET_VALUE }}
+          VARS_GH_SECRET: ${{ vars.SECRET_VALUE }}
         run: echo "SecretValue is $SECRET_VALUE"
 
       # - uses: azure/get-keyvault-secrets@v1
