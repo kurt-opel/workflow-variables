@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello-action-step
-        uses: kurt-opel/github-action-hello-world@v1.1
+        uses: kurt-opel/github-action-hello-world@v1
         with:
           who-to-greet: BigDog63
       - name: Get the output time
