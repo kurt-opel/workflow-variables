@@ -32,9 +32,6 @@ jobs:
       APP_PUBLISH_PROFILE: "" # will be populated later
     permissions:
       id-token: write
-    defaults:
-      run:
-        shell: bash
 
     steps:
       - uses: actions/checkout@v4
@@ -68,7 +65,8 @@ jobs:
       #       Get-AzContext
 
       - name: Get secret from keyvault
-        id: get-secret-from-keyvault        
+        id: get-secret-from-keyvault
+        shell: bash
         run: >
           gh_secret=$(az keyvault secret show 
           --name GitHub
