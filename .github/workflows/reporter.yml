@@ -24,6 +24,18 @@ env:
   WORKFLOW_ENVIRONMENT: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name }}
 
 jobs:
+  hello-world-job:
+    runs-on: ubuntu-latest
+    name: A job to Say Hello
+    steps:
+      - name: Hello world action step
+        id: hello-action-step
+        uses: kurt-opel/github-action-hello-world@v1.1
+        with:
+          who-to-greet: BigDog63
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello-action-step.outputs.time }}."
+
   reporter:
     name: Report the variables and secrets values
     runs-on: windows-latest
