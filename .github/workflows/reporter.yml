@@ -28,6 +28,8 @@ jobs:
     name: Report the variables and secrets values
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name  }}
+    env:
+      APP_PUBLISH_PROFILE: "" # will be populated later
     permissions:
       id-token: write
 
@@ -55,12 +57,12 @@ jobs:
           inlineScript: |
             az account show
 
-      - name: Azure PowerShell script
-        uses: azure/powershell@v2
-        with:
-          azPSVersion: latest
-          inlineScript: |
-            Get-AzContext
+      # - name: Azure PowerShell script
+      #   uses: azure/powershell@v2
+      #   with:
+      #     azPSVersion: latest
+      #     inlineScript: |
+      #       Get-AzContext
 
       - name: Get secret from keyvault
         id: get-secret-from-keyvault
@@ -70,13 +72,12 @@ jobs:
           --vault-name kv-github-workflow-test
           --query value) &&
           echo "::add-mask::$gh_secret" &&
-          echo "SECRET_VALUE=$gh_secret" >> $GITHUB_ENV
+          echo "APP_PUBLISH_PROFILE=$gh_secret" >> $GITHUB_ENV
 
       - name: Output Secret Value
         env:
-          ENV_GH_SECRET: ${{ env.SECRET_VALUE }}
-          VARS_GH_SECRET: ${{ vars.SECRET_VALUE }}
-        run: echo "SecretValue is $SECRET_VALUE"
+          ENV_GH_SECRET: ${{ env.APP_PUBLISH_PROFILE }}
+        run: echo "SecretValue is $APP_PUBLISH_PROFILE"
 
       # - uses: azure/get-keyvault-secrets@v1
       #   id: get-kevault-secrets
