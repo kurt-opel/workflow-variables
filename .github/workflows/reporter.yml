@@ -26,12 +26,15 @@ env:
 jobs:
   reporter:
     name: Report the variables and secrets values
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     environment: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name  }}
     env:
       APP_PUBLISH_PROFILE: "" # will be populated later
     permissions:
       id-token: write
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - uses: actions/checkout@v4
@@ -65,7 +68,7 @@ jobs:
       #       Get-AzContext
 
       - name: Get secret from keyvault
-        id: get-secret-from-keyvault
+        id: get-secret-from-keyvault        
         run: >
           gh_secret=$(az keyvault secret show 
           --name GitHub
