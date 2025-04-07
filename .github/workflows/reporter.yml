@@ -76,7 +76,7 @@ jobs:
       #     inlineScript: |
       #       Get-AzContext
 
-      - name: Get secret from keyvault
+      - name: Get secret from keyvault using bash
         id: get-secret-from-keyvault
         shell: bash
         run: >
@@ -87,10 +87,26 @@ jobs:
           echo "::add-mask::$gh_secret" &&
           echo "APP_PUBLISH_PROFILE=$gh_secret" >> $GITHUB_ENV
 
-      - name: Output Secret Value
+      - name: Output Secret Value set using bash
         env:
           ENV_GH_SECRET: ${{ env.APP_PUBLISH_PROFILE }}
         run: echo "SecretValue is $APP_PUBLISH_PROFILE"
+
+      - name: Get Secret from KeyVault using PowerShell
+        shell: pwsh
+        run: >
+          $ghSecret = $(az keyvault secret show 
+          --name GitHub
+          --vault-name kv-github-workflow-test
+          --query value);
+          echo "APP_PUBLISH_PROFILE_POWERSHEll=$($ghSecret)-ps" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Output Secret Value set using PowerShell
+        env:
+          ENV_GH_SECRET_POWERSHELL: ${{ env.APP_PUBLISH_PROFILE_POWERSHELL }}
+        run: echo "SecretValue is $APP_PUBLISH_PROFILE_POWERSHELL"
+
+
 
       # - uses: azure/get-keyvault-secrets@v1
       #   id: get-kevault-secrets
