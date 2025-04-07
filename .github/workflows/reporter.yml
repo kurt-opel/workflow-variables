@@ -90,6 +90,7 @@ jobs:
       - name: Output Secret Value set using bash
         env:
           ENV_GH_SECRET: ${{ env.APP_PUBLISH_PROFILE }}
+        shell: bash
         run: echo "SecretValue is $APP_PUBLISH_PROFILE"
 
       - name: Get Secret from KeyVault using PowerShell
@@ -104,6 +105,7 @@ jobs:
       - name: Output Secret Value set using PowerShell
         env:
           ENV_GH_SECRET_POWERSHELL: ${{ env.APP_PUBLISH_PROFILE_POWERSHELL }}
+        shell: bash
         run: echo "SecretValue is $APP_PUBLISH_PROFILE_POWERSHELL"
 
 
