@@ -25,7 +25,7 @@ env:
 
 jobs:
   hello-world-job:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     name: A job to Say Hello via JavaScript
     steps:
       - name: Hello world action step
