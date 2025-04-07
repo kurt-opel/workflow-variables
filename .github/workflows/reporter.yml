@@ -106,7 +106,7 @@ jobs:
           --vault-name kv-github-workflow-test
           --query value);
           echo "::add-mask::$ghSecret";
-          echo "APP_PUBLISH_PROFILE=$ghSecret" >> Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append;
+          echo "APP_PUBLISH_PROFILE=$ghSecret" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append;
 
       - name: Output Secret Value set using PowerShell
         shell: bash
