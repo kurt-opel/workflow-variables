@@ -24,17 +24,17 @@ env:
   WORKFLOW_ENVIRONMENT: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name }}
 
 jobs:
-  hello-world-job:
-    runs-on: ubuntu-latest
-    name: A job to Say Hello
-    steps:
-      - name: Hello world action step
-        id: hello-action-step
-        uses: kurt-opel/github-action-hello-world@v1
-        with:
-          who-to-greet: BigDog63
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello-action-step.outputs.time }}."
+  # hello-world-job:
+  #   runs-on: ubuntu-latest
+  #   name: A job to Say Hello
+  #   steps:
+  #     - name: Hello world action step
+  #       id: hello-action-step
+  #       uses: kurt-opel/github-action-hello-world@v1
+  #       with:
+  #         who-to-greet: BigDog63
+  #     - name: Get the output time
+  #       run: echo "The time was ${{ steps.hello-action-step.outputs.time }}."
 
   reporter:
     name: Report the variables and secrets values
@@ -95,7 +95,8 @@ jobs:
 
       - name: Set a variable for later use using PowerShell
         shell: pwsh
-        run: echo "APP_PUBLISH_PROFILE=my-value" >> Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        run: |
+          echo "APP_PUBLISH_PROFILE=my-value" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       # - name: Get Secret from KeyVault using PowerShell
       #   shell: pwsh
