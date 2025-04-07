@@ -59,8 +59,8 @@ jobs:
       #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
       #     enable-AzPSSession: true
-      # - name: Azure Login
-      #   run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+      - name: Azure Login
+        run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
       # - name: Azure CLI script
       #   uses: azure/cli@v2
@@ -95,18 +95,18 @@ jobs:
 
       - name: Set a variable for later use using PowerShell
         shell: pwsh
-        run: |
+        run: |    
           echo "APP_PUBLISH_PROFILE=my-value" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-      # - name: Get Secret from KeyVault using PowerShell
-      #   shell: pwsh
-      #   run: >
-      #     $ghSecret = $(az keyvault secret show 
-      #     --name GitHubPs
-      #     --vault-name kv-github-workflow-test
-      #     --query value);
-      #     echo ::add-mask::$ghSecret";
-      #     echo "APP_PUBLISH_PROFILE=$ghSecret" >> Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append;
+      - name: Get Secret from KeyVault using PowerShell
+        shell: pwsh
+        run: >
+          $ghSecret = $(az keyvault secret show 
+          --name GitHubPs
+          --vault-name kv-github-workflow-test
+          --query value);
+          echo "::add-mask::$ghSecret";
+          echo "APP_PUBLISH_PROFILE=$ghSecret" >> Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append;
 
       - name: Output Secret Value set using PowerShell
         shell: bash
