@@ -100,17 +100,19 @@ jobs:
 
       - name: Get Secret from KeyVault using PowerShell
         shell: pwsh
+        id: get-secret-from-keyvault
         run: >
           $ghSecret = $(az keyvault secret show 
           --name GitHubPs
           --vault-name kv-github-workflow-test
           --query value);
-          echo "::add-mask::$ghSecret";
-          echo "APP_PUBLISH_PROFILE=$ghSecret" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append;
+          echo "pub-profile=$ghSecret" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append;
 
       - name: Output Secret Value set using PowerShell
         shell: bash
-        run: echo "SecretValue is ${{ env.APP_PUBLISH_PROFILE }}"
+        run: |
+          echo "SecretValue is ${{ steps.get-secret-from-keyvault.outputs.pub-profile }}"
+          echo "Environment Value is ${{ env.APP_PUBLISH_PROFILE }}"
 
 
 
