@@ -24,17 +24,24 @@ env:
   WORKFLOW_ENVIRONMENT: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name }}
 
 jobs:
-  # hello-world-job:
-  #   runs-on: ubuntu-latest
-  #   name: A job to Say Hello
-  #   steps:
-  #     - name: Hello world action step
-  #       id: hello-action-step
-  #       uses: kurt-opel/github-action-hello-world@v1
-  #       with:
-  #         who-to-greet: BigDog63
-  #     - name: Get the output time
-  #       run: echo "The time was ${{ steps.hello-action-step.outputs.time }}."
+  hello-world-job:
+    runs-on: ubuntu-latest
+    name: A job to Say Hello via JavaScript
+    steps:
+      - name: Hello world action step
+        id: hello-action-step
+        uses: kurt-opel/github-action-hello-world@v1
+        with:
+          who-to-greet: BigDog63
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello-action-step.outputs.time }}."
+      - name: Hello world step from docker
+        id: hello-docker-action-step
+        uses: kurt-opel/github-action-docker-hello-world@v1
+        with:
+          who-to-greet: Conrad Smythe
+      - name: Get the output time from docker
+        run: echo "The time was ${{ steps.hello-docker-action-step.outputs.time }}"
 
   reporter:
     name: Report the variables and secrets values
