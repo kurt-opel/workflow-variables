@@ -122,16 +122,15 @@ jobs:
           echo "SecretValue is ${{ steps.get-secret-from-keyvault.outputs.pub-profile }}"
           echo "Environment Value is ${{ env.APP_PUBLISH_PROFILE }}"
 
+      - name: Get Secrets with my action
+        uses: kurt-opel/get-keyvault-secrets@v1.1
+        id: get-keyvault-secrets
+        with:
+          keyvault: kv-github-workflow-test
+          secrets: GitHubPs
 
-
-      # - uses: azure/get-keyvault-secrets@v1
-      #   id: get-kevault-secrets
-      #   with:
-      #     keyvault: ${{ vars.AZURE_KEY_VAULT_NAME }}
-      #     secrets: ${{ vars.AZURE_KEY_VAULT_SECRET_NAME__FUNC_APP_PUBLISH_PROFILE }}
-
-      # - name: What are the secrets?
-      #   run: echo ${{ steps.get-kevault-secrets.outputs.* }}
+      - name: What are the secrets?
+        run: echo ${{ steps.get-keyvault-secrets.outputs.GitHubPs }}
 
       # - name: Echo report variable names
       #   run: |
