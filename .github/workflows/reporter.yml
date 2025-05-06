@@ -5,6 +5,7 @@ on:
     branches:
       - develop
       - stage
+      - env-staging
       - master
 
   pull_request:
@@ -46,6 +47,7 @@ jobs:
   reporter:
     name: Report the variables and secrets values
     runs-on: windows-latest
+    if: ${{ github.event_name == 'push' }}
     environment: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name  }}
     env:
       APP_PUBLISH_PROFILE: # will be populated later
