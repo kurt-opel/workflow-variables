@@ -9,15 +9,15 @@ on:
         description: It is true?
         required: true
         type: boolean
-        default: true
+        default: false
 
 jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-      # - name: Report Variables
-      #   run: echo ${{ github.event.inputs.is-true }}
+      - name: Always Run
+        run: echo "Base Build"
 
       - name: Runs if true
-        if: ${{ github.event.inputs.is-true == 'true' }}
+        if: ${{ inputs.is-true }}
         run: echo "It is true"
