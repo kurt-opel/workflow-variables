@@ -1,0 +1,23 @@
+name: Report Values
+
+run-name: Report Values - requested by ${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      is-true:
+        description: It is true?
+        required: true
+        type: boolean
+        default: true
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      # - name: Report Variables
+      #   run: echo ${{ github.event.inputs.is-true }}
+
+      - name: Runs if true
+        if: ${{ github.event.inputs.is-true == 'true' }}
+        run: echo "It is true"
