@@ -12,6 +12,10 @@ on:
         default: false
 
 jobs:
+  call-reusable:
+    uses: ./.github/workflows/reusable.yml
+    with:
+      run-extra: ${{ inputs.is-true }}
   report:
     runs-on: ubuntu-latest
     steps:
