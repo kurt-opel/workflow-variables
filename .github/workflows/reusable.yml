@@ -1,0 +1,21 @@
+name: Reusable
+
+on:
+  workflow_call:
+    inputs:
+      run-extra:
+        description: Whether to run extra steps
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  do-work:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Always run
+        run: echo "Base work"
+
+      - name: Extra Steps (gated by boolean)
+        if: ${{ inputs.run-extra }}
+        run: echo "Extra Work enabled"
