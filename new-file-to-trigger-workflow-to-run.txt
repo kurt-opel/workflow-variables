@@ -1,1 +1,2 @@
 A line for a commit
+A second commit
