@@ -1,2 +1,3 @@
 A line for a commit
 A second commit
+How about a third commit?
