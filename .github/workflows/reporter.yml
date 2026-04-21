@@ -44,17 +44,17 @@ jobs:
       - name: Get the output time from docker
         run: echo "The time was ${{ steps.hello-docker-action-step.outputs.time }}"
 
-  reporter:
-    name: Report the variables and secrets values
-    runs-on: windows-latest
-    if: ${{ github.event_name == 'push' }}
-    environment: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name  }}
-    env:
-      APP_PUBLISH_PROFILE: # will be populated later
-    permissions:
-      id-token: write
+  # reporter:
+  #   name: Report the variables and secrets values
+  #   runs-on: windows-latest
+  #   if: ${{ github.event_name == 'push' }}
+  #   environment: ${{ github.ref_name == 'master' && 'prod' || github.ref_name == 'develop' && 'development' || github.ref_name  }}
+  #   env:
+  #     APP_PUBLISH_PROFILE: # will be populated later
+  #   permissions:
+  #     id-token: write
 
-    steps:
+  #   steps:
       # - uses: actions/checkout@v4
 
       # - name: Echo event name
@@ -102,10 +102,10 @@ jobs:
       #   shell: bash
       #   run: echo "SecretValue is $APP_PUBLISH_PROFILE"
 
-      - name: Set a variable for later use using PowerShell
-        shell: pwsh
-        run: |    
-          echo "APP_PUBLISH_PROFILE=my-value" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      # - name: Set a variable for later use using PowerShell
+      #   shell: pwsh
+      #   run: |    
+      #     echo "APP_PUBLISH_PROFILE=my-value" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       # - name: Get Secret from KeyVault using PowerShell
       #   shell: pwsh
@@ -124,15 +124,15 @@ jobs:
       #     echo "SecretValue is ${{ steps.get-secret-from-keyvault.outputs.pub-profile }}"
       #     echo "Environment Value is ${{ env.APP_PUBLISH_PROFILE }}"
 
-      - name: Get Secrets with my action
-        uses: kurt-opel/get-keyvault-secrets@v1.2
-        id: get-keyvault-secrets
-        with:
-          keyvault: kv-github-workflow-test
-          secrets: GitHubPs
+      # - name: Get Secrets with my action
+      #   uses: kurt-opel/get-keyvault-secrets@v1.2
+      #   id: get-keyvault-secrets
+      #   with:
+      #     keyvault: kv-github-workflow-test
+      #     secrets: GitHubPs
 
-      - name: What are the secrets?
-        run: echo ${{ steps.get-keyvault-secrets.outputs.GitHubPs }}
+      # - name: What are the secrets?
+      #   run: echo ${{ steps.get-keyvault-secrets.outputs.GitHubPs }}
 
       # - name: Echo report variable names
       #   run: |
