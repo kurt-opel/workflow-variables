@@ -58,8 +58,11 @@ jobs:
       id-token: write
 
     steps:
-      - name: Echo ref name
-        run: echo "Ref name is ${{ github.ref_name }}"
+      - name: Echo Variables
+        run: |
+          echo "Ref name is ${{ github.ref_name }}"
+          echo "My Environment Variable is ${{ vars.MY_ENVIRONMENT_VARIABLE }}"
+
       # - uses: actions/checkout@v4
 
       # - name: Echo event name
