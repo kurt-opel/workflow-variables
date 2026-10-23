@@ -7,12 +7,14 @@ on:
       - stage
       - env-staging
       - master
+      - env/*
 
   pull_request:
     branches:
       - develop
       - stage
       - master
+      - env/*
 
   workflow_dispatch:
 
