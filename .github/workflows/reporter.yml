@@ -60,8 +60,8 @@ jobs:
     steps:
       - name: Echo Variables
         run: |
-          echo "Ref name is ${{ github.ref_name }}"
-          echo "My Environment Variable is ${{ vars.MY_ENVIRONMENT_VARIABLE }}"
+          echo "Ref name: ${{ github.ref_name }}"
+          echo "My Environment Variable: ${{ vars.MY_ENVIRONMENT_VARIABLE }}"
 
       # - uses: actions/checkout@v4
 
